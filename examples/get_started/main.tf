@@ -18,7 +18,7 @@ resource "elestio_project" "project" {
 }
 
 module "cluster" {
-  source = "elestio-examples/mysql-cluster/elestio"
+  source = "../.."
 
   project_id    = elestio_project.project.id
   server_name   = "mysql"
@@ -44,7 +44,14 @@ module "cluster" {
   }
 }
 
-# output "cluster_admin" {
-#   value     = module.cluster.cluster_admin
-#   sensitive = true
-# }
+# PHPMyAdmin secrets
+output "cluster_admin" {
+  value     = module.cluster.cluster_admin
+  sensitive = true
+}
+
+# Database secrets
+output "cluster_database_admin" {
+  value     = module.cluster.cluster_database_admin
+  sensitive = true
+}
