@@ -1,7 +1,9 @@
 <!-- BEGIN_TF_DOCS -->
 # Elestio MySQL Cluster Terraform module
 
-Using this module, you can easily and quickly deploy a MySQL Cluster on Elestio that is configured correctly and ready to use, without spending a lot of time on manual configuration.
+If you can't afford for your database to be down for even a few minutes, a Multi-Master cluster is a great option to ensure high availability.
+
+A multi-master scenario means that one node can be taken offline (e.g. for maintenance or upgrade purposes) without impacting availability, as the other node will continue to serve production traffic. Further, it doubles your capacity to read or write to the database and provides an additional layer of protection against data loss.
 
 
 
@@ -64,7 +66,9 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_cluster_admin"></a> [cluster\_admin](#output\_cluster\_admin) | The information to access your clustered database |
+| <a name="output_cluster_admin"></a> [cluster\_admin](#output\_cluster\_admin) | The URL and secrets to connect to PHPMyAdmin on both nodes |
+| <a name="output_cluster_database_admin"></a> [cluster\_database\_admin](#output\_cluster\_database\_admin) | The database connection string/command for both nodes |
+| <a name="output_cluster_nodes"></a> [cluster\_nodes](#output\_cluster\_nodes) | All the information of the nodes in the cluster |
 ## Providers
 
 | Name | Version |
