@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Write ssh key in a temporary file (deleted later in the script)
+filename="tmp_private_key.txt"
+echo "${ssh_private_key}" > $${filename}
+chmod -R 600 $${filename}
+
+# Node 0
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $${filename} root@${nodes[0].ipv4} <<-SSH
+  clusterMode="Multi-master of ${nodes[1].global_ip}:${nodes[1].database_admin.port}"
+  echo "\$${clusterMode}" > /opt/clustermode.conf
+
+  ## Change .env
+  randomInteger="$((RANDOM % 999999 + 1))"
+  sed -i "/CLUSTER_OPTIONS=/c\CLUSTER_OPTIONS=--server-id=\$${randomInteger} --report-host=${nodes[1].cname} --auto-increment-increment=2 --auto-increment-offset=1" /opt/app/.env
+  cd /opt/app;
+  docker-compose down;
+  docker-compose up -d;
+  sleep 15s;
+
+  ## Configure replication
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[0].database_admin.port} -u ${nodes[0].database_admin.user} -p${nodes[0].database_admin.password} -e "stop slave;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[0].database_admin.port} -u ${nodes[0].database_admin.user} -p${nodes[0].database_admin.password} -e "CHANGE MASTER TO MASTER_HOST='${nodes[1].global_ip}', MASTER_PORT=${nodes[1].database_admin.port}, MASTER_USER='${nodes[1].database_admin.user}', MASTER_PASSWORD='${nodes[1].database_admin.password}', MASTER_AUTO_POSITION=1;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[0].database_admin.port} -u ${nodes[0].database_admin.user} -p${nodes[0].database_admin.password} -e "reset slave;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[0].database_admin.port} -u ${nodes[0].database_admin.user} -p${nodes[0].database_admin.password} -e "start slave;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[0].database_admin.port} -u ${nodes[0].database_admin.user} -p${nodes[0].database_admin.password} -e "show slave status;"
+SSH
+
+# Node 1
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $${filename} root@${nodes[1].ipv4} <<-SSH
+  clusterMode="Multi-master of ${nodes[0].global_ip}:${nodes[0].database_admin.port}"
+  echo "\$${clusterMode}" > /opt/clustermode.conf
+
+  ## Change .env
+  randomInteger="$((RANDOM % 999999 + 1))"
+  sed -i "/CLUSTER_OPTIONS=/c\CLUSTER_OPTIONS=--server-id=\$${randomInteger} --report-host=${nodes[0].cname} --auto-increment-increment=2 --auto-increment-offset=1" /opt/app/.env
+  cd /opt/app;
+  docker-compose down;
+  docker-compose up -d;
+  sleep 15s;
+
+  ## Configure replication
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[1].database_admin.port} -u ${nodes[1].database_admin.user} -p${nodes[1].database_admin.password} -e "stop slave;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[1].database_admin.port} -u ${nodes[1].database_admin.user} -p${nodes[1].database_admin.password} -e "CHANGE MASTER TO MASTER_HOST='${nodes[0].global_ip}', MASTER_PORT=${nodes[0].database_admin.port}, MASTER_USER='${nodes[0].database_admin.user}', MASTER_PASSWORD='${nodes[0].database_admin.password}', MASTER_AUTO_POSITION=1;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[1].database_admin.port} -u ${nodes[1].database_admin.user} -p${nodes[1].database_admin.password} -e "reset slave;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[1].database_admin.port} -u ${nodes[1].database_admin.user} -p${nodes[1].database_admin.password} -e "start slave;"
+  docker exec mysql mysql -h 172.17.0.1 --port ${nodes[1].database_admin.port} -u ${nodes[1].database_admin.user} -p${nodes[1].database_admin.password} -e "show slave status;"
+SSH
+
+# Delete temporary ssh key file
+rm $${filename}
