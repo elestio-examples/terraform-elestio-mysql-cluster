@@ -1,14 +1,18 @@
 variable "project_id" {
   type        = string
-  description = "The ID of the project in which the two MySQL nodes will be created"
   nullable    = false
+  description = <<-EOF
+    Related [documentation](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#project_id) `#project_id`
+  EOF
 }
 
 
 variable "server_name" {
   type        = string
-  description = "https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#server_name"
   nullable    = false
+  description = <<-EOF
+    Related [documentation](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#server_name) `#server_name`
+  EOF
 }
 
 variable "configs" {
@@ -19,7 +23,13 @@ variable "configs" {
       server_type   = string
     })
   )
-  nullable = false
+  nullable    = false
+  description = <<-EOF
+    Max 2 configs because only 2 nodes can be clustered safely.
+    Optionnaly, you can specify a different config for the second node.
+    See [providers list](https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/3_providers_datacenters_server_types)
+  EOF
+
   validation {
     condition     = length(var.configs) == 1 || length(var.configs) == 2
     error_message = "You must fill in at least one configuration. A second configuration is optional if you want different options for the second node."
@@ -29,19 +39,25 @@ variable "configs" {
 variable "mysql_version" {
   type        = string
   nullable    = true
-  description = "https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#version"
+  description = <<-EOF
+    Related [documentation](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#version) `#version`
+  EOF
 }
 
 variable "support_level" {
   type        = string
   nullable    = false
-  description = "https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#support_level"
+  description = <<-EOF
+    Related [documentation](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#support_level) `#support_level`
+  EOF
 }
 
 variable "admin_email" {
   type        = string
   nullable    = false
-  description = "https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#admin_email"
+  description = <<-EOF
+    Related [documentation](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql#admin_email) `#admin_email`
+  EOF
 }
 
 variable "ssh_key" {
@@ -52,5 +68,7 @@ variable "ssh_key" {
   })
   nullable    = false
   sensitive   = true
-  description = "A local SSH connection is required to run the commands on all nodes to create the cluster."
+  description = <<-EOF
+    A local SSH connection is required to run the commands on all nodes to create the cluster.
+  EOF
 }

@@ -1,4 +1,5 @@
-output "nodes" {
-  value       = elestio_mysql.nodes
-  description = "The information of each MySQL cluster nodes."
+output "cluster_admin" {
+  value       = module.cluster.nodes.*.database_admin
+  description = "The information to access your clustered database"
+  sensitive   = true
 }
