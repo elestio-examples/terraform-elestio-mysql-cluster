@@ -19,7 +19,7 @@ module "simple_example_cluster" {
 
   project_id    = "1234"
   server_name   = "mysql"
-  mysql_version = 8
+  mysql_version = "8"
   support_level = "level1"
   admin_email   = "admin@example.com"
   configs = [

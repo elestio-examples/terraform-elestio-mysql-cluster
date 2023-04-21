@@ -18,11 +18,12 @@ resource "elestio_project" "project" {
 }
 
 module "cluster" {
-  source = "../.."
+  source = "elestio-examples/mysql-cluster/elestio"
+  # source = "../.." # use the local version
 
   project_id    = elestio_project.project.id
   server_name   = "mysql"
-  mysql_version = 8
+  mysql_version = "8"
   support_level = "level1"
   admin_email   = var.elestio_email
 

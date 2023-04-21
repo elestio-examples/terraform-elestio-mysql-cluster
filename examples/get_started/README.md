@@ -40,4 +40,29 @@ Some knowledge of [terraform](https://developer.hashicorp.com/terraform/intro) i
 
 ## Testing
 
-TODO
+Use `terraform output cluster_admin` command to output PHPMyAdmin secrets:
+
+```bash
+# cluster_admin
+[
+  {
+    "password" = "...."
+    "url" = "https://mysql-0-u525.vm.elestio.app:24580/"
+    "user" = "root"
+  },
+  {
+    "password" = "..."
+    "url" = "https://mysql-1-u525.vm.elestio.app:24580/"
+    "user" = "root"
+  },
+]
+```
+
+Log in to both URLs with the credentials.
+
+Create a database on the first node.
+You should see it automatically appear on the second node a few seconds later.
+
+You can try turning off the first node on the [Elestio dashboard](https://dash.elest.io/).
+The second node remains functional.
+When you restart it, it automatically updates with the new data.
