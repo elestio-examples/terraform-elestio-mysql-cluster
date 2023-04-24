@@ -48,6 +48,14 @@ module "simple_example_cluster" {
 - [Get Started](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples/get_started) - Ready-to-deploy example which creates MySQL Cluster on Elestio with Terraform in 5 minutes.
 
 
+## How to use Multi-Master cluster
+
+If you can configure your two master clusters in Round Robin in your MySQL driver, a load balancer is not needed. The client-side will split the traffic between your instances and avoid a dead node. This helps to greatly simplify the high-availability system.
+
+- [Node.js](https://www.npmjs.com/package/mysql#poolcluster)
+- [Java](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html)
+
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -88,11 +96,4 @@ No modules.
 |------|------|
 | [elestio_mysql.nodes](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql) | resource |
 | [null_resource.cluster_configuration](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-
-## How to use Multi-Master cluster
-
-If you can configure your two master clusters in Round Robin in your MySQL driver, a load balancer is not needed. The client-side will split the traffic between your instances and avoid a dead node. This helps to greatly simplify the high-availability system.
-
-- [Node.js](https://www.npmjs.com/package/mysql#poolcluster)
-- [Java](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html)
 <!-- END_TF_DOCS -->

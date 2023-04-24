@@ -36,13 +36,6 @@ content: |-
 
   - [Get Started](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples/get_started) - Ready-to-deploy example which creates MySQL Cluster on Elestio with Terraform in 5 minutes.
 
-  {{ .Footer }}
-  {{ .Inputs }}
-  {{ .Modules }}
-  {{ .Outputs }}
-  {{ .Providers }}
-  {{ .Requirements }}
-  {{ .Resources }}
 
   ## How to use Multi-Master cluster
 
@@ -50,6 +43,14 @@ content: |-
 
   - [Node.js](https://www.npmjs.com/package/mysql#poolcluster)
   - [Java](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html)
+
+  {{ .Footer }}
+  {{ .Inputs }}
+  {{ .Modules }}
+  {{ .Outputs }}
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
 
 output:
   file: ""
