@@ -33,7 +33,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $${filename} 
 
   ## Change .env
   randomInteger="$((RANDOM % 999999 + 1))"
-  sed -i "/CLUSTER_OPTIONS=/c\CLUSTER_OPTIONS=--server-id=\$${randomInteger} --report-host=${nodes[0].cname} --auto-increment-increment=2 --auto-increment-offset=1" /opt/app/.env
+  sed -i "/CLUSTER_OPTIONS=/c\CLUSTER_OPTIONS=--server-id=\$${randomInteger} --report-host=${nodes[0].cname} --auto-increment-increment=2 --auto-increment-offset=2" /opt/app/.env
   cd /opt/app;
   docker-compose down;
   docker-compose up -d;

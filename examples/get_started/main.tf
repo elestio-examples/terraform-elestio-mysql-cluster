@@ -32,7 +32,13 @@ module "cluster" {
     # https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/3_providers_datacenters_server_types
     {
       provider_name = "hetzner"
-      datacenter    = "fsn1"
+      datacenter    = "fsn1" # germany
+      server_type   = "SMALL-1C-2G"
+    },
+    # This following config is optional, only if you want a different config for the second node
+    {
+      provider_name = "hetzner"
+      datacenter    = "hel1" # finlande
       server_type   = "SMALL-1C-2G"
     },
   ]

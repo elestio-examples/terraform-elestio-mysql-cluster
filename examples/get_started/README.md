@@ -66,3 +66,10 @@ You should see it automatically appear on the second node a few seconds later.
 You can try turning off the first node on the [Elestio dashboard](https://dash.elest.io/).
 The second node remains functional.
 When you restart it, it automatically updates with the new data.
+
+## How to use Multi-Master cluster
+
+If you can configure your two master clusters in Round Robin in your MySQL driver, a load balancer is not needed. The client-side will split the traffic between your instances and avoid a dead node. This helps to greatly simplify the high-availability system.
+
+- [Node.js](https://www.npmjs.com/package/mysql#poolcluster)
+- [Java](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html)

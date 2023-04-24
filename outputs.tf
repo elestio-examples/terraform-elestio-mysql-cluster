@@ -11,7 +11,7 @@ output "cluster_admin" {
 }
 
 output "cluster_database_admin" {
-  value       = elestio_mysql.nodes.*.admin
+  value       = elestio_mysql.nodes.*.database_admin
   description = "The database connection string/command for both nodes"
   sensitive   = true
 }
