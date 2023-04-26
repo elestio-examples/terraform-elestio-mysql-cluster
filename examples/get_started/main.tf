@@ -19,7 +19,7 @@ resource "elestio_project" "project" {
 
 module "cluster" {
   source = "elestio-examples/mysql-cluster/elestio"
-  # source = "../.." # use the local version
+  # source = "../.." # If you want to use the local version
 
   project_id    = elestio_project.project.id
   server_name   = "mysql"
@@ -27,9 +27,9 @@ module "cluster" {
   support_level = "level1"
   admin_email   = var.elestio_email
 
+  # Read the documentation to see the full providers/datacenters/server_types list:
+  # https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/3_providers_datacenters_server_types
   configs = [
-    # Read the documentation to see the full providers/datacenters/server_types list:
-    # https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/3_providers_datacenters_server_types
     {
       provider_name = "hetzner"
       datacenter    = "fsn1" # germany
@@ -47,7 +47,7 @@ module "cluster" {
     key_name    = "admin"                   # or var.ssh_key.name
     public_key  = file("~/.ssh/id_rsa.pub") # or var.ssh_key.public_key
     private_key = file("~/.ssh/id_rsa")     # or var.ssh_key.private_key
-    # See variables.tf and secrets.tfvars file comments if your want to use variables.
+    # See variables.tf and secrets.tfvars file comments if your want to use variables instead of file() function.
   }
 }
 

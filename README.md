@@ -11,7 +11,7 @@ This module deploy 2 MySQL nodes on Elestio and commands are automatically execu
 
 ## Usage
 
-There is a ready-to-deploy example included in the [examples](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples) folder but simple usage is as follows:
+There is a [ready-to-deploy example](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples/get_started) included in the [examples](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples) folder but simple usage is as follows:
 
 ```hcl
 module "simple_example_cluster" {
