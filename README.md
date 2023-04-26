@@ -25,14 +25,14 @@ module "simple_example_cluster" {
   configs = [
     {
       provider_name = "hetzner"
-      datacenter    = "fsn1"
+      datacenter    = "fsn1" # germany
       server_type   = "SMALL-1C-2G"
     },
     # This following config is optional, only if you want a different config for the second node
     {
-      provider_name = "lightsail"
-      datacenter    = "eu-west-1"
-      server_type   = "MICRO-1C-1G"
+      provider_name = "hetzner"
+      datacenter    = "hel1" # finlande
+      server_type   = "SMALL-1C-2G"
     },
   ]
   ssh_key = {
