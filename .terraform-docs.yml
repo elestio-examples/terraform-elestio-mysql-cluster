@@ -1,9 +1,9 @@
-formatter: "" # this is required
+formatter: '' # this is required
 
-version: ""
+version: ''
 
 header-from: main.tf
-footer-from: ""
+footer-from: ''
 
 recursive:
   enabled: false
@@ -16,34 +16,92 @@ sections:
 content: |-
   # Elestio MySQL Cluster Terraform module
 
-  If you can't afford for your database to be down for even a few minutes, a Multi-Master cluster is a great option to ensure high availability.
+  ## Benefits of a MySQL cluster
+
+  A Multi-Master MySQL cluster is a great option to ensure high availability, it allows for easy scalability to meet changing demands without replacing the entire system.
+  It can handle more requests without slowing down or crashing, and provides fault tolerance to ensure that the system remains operational.
 
   A multi-master scenario means that one node can be taken offline (e.g. for maintenance or upgrade purposes) without impacting availability, as the other node will continue to serve production traffic. Further, it doubles your capacity to read or write to the database and provides an additional layer of protection against data loss.
-
   {{ .Header }}
+  ## Module requirements
 
-  This module deploy 2 MySQL nodes on Elestio and commands are automatically executed to link them using the multi-master feature.
+  - 1 Elestio account https://dash.elest.io/signup
+  - 1 API key https://dash.elest.io/account/security
+  - 1 SSH public/private key (see how to create one [here](https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/ssh_keys))
 
-  ## Usage
+  ## Module usage
 
-  There is a [ready-to-deploy example](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples/get_started) included in the [examples](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples) folder but simple usage is as follows:
+  This is a minimal example of how to use the module:
 
   ```hcl
-  {{ include "examples/doc/main.tf" }}
+  {{ include "examples/doc/usage.tf" }}
   ```
 
-  ## Examples
+  Keep your mysql password safe, you will need it to access the admin panel.
 
-  - [Get Started](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples/get_started) - Ready-to-deploy example which creates MySQL Cluster on Elestio with Terraform in 5 minutes.
+  If you want to know more about node configuration, check the mysql service documentation [here](https://registry.terraform.io/providers/elestio/elestio/latest/docs/resources/mysql).
 
+  If you want to choose your own provider, datacenter or server type, check the guide [here](https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/providers_datacenters_server_types).
 
-  ## How to use Multi-Master cluster
+  If you want to generated a valid SSH Key, check the guide [here](https://registry.terraform.io/providers/elestio/elestio/latest/docs/guides/ssh_keys).
+
+  MySQL Multi-Master Cluster are restricted to 2 nodes. Be aware of the resources limit of your account, please visit your account [quota page](https://dash.elest.io/account/add-quota).
+
+  ## Quick configuration
+
+  The following example will create a MySQL cluster with 2 nodes.
+
+  You may need to adjust the configuration to fit your needs.
+
+  Create a `main.tf` file at the root of your project, and fill it with your Elestio credentials:
+
+  ```hcl
+  {{ include "examples/doc/init.tf" }}
+  ```
+
+  Now you can use the module to create mysql nodes:
+
+  ```hcl
+  {{ include "examples/doc/module.tf" }}
+  ```
+
+  Finally, let's add some outputs to retrieve useful information:
+
+  ```hcl
+  {{ include "examples/doc/outputs.tf" }}
+  ```
+
+  You can now run `terraform init` and `terraform apply` to create your MySQL cluster.
+  After a few minutes, the cluster will be ready to use.
+  You can access your outputs with `terraform output`:
+
+  ```bash
+  $ terraform output nodes_admins
+  $ terraform output nodes_database_admins
+  ```
+
+  If you want to update some parameters, you can edit the `main.tf` file and run `terraform apply` again.
+  Terraform will automatically update the cluster to match the new configuration.
+  Please note that changing some parameters requires to change the .env of existing nodes. This is done automatically by the module.
+
+  ## Ready-to-deploy example
+
+  We created a ready-to-deploy example which creates the same infrastructure as the previous example.
+  You can find it [here](https://github.com/elestio-examples/terraform-elestio-mysql-cluster/tree/main/examples/get_started).
+  Follow the instructions to deploy the example.
+
+  ## How to use the cluster
+
+  Use `terraform output nodes_database_admins` command to output database secrets:
+
+  ```bash
+  {{ include "examples/doc/readme_output.sh" }}
+  ```
 
   If you can configure your two master clusters in Round Robin in your MySQL driver, a load balancer is not needed. The client-side will split the traffic between your instances and avoid a dead node. This helps to greatly simplify the high-availability system.
 
   - [Node.js](https://www.npmjs.com/package/mysql#poolcluster)
   - [Java](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html)
-
   {{ .Footer }}
   {{ .Inputs }}
   {{ .Modules }}
@@ -53,7 +111,7 @@ content: |-
   {{ .Resources }}
 
 output:
-  file: ""
+  file: ''
   mode: inject
   template: |-
     <!-- BEGIN_TF_DOCS -->
@@ -62,7 +120,7 @@ output:
 
 output-values:
   enabled: false
-  from: ""
+  from: ''
 
 sort:
   enabled: true

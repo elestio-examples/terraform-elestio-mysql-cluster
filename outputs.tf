@@ -1,17 +1,5 @@
-output "cluster_nodes" {
+output "nodes" {
+  description = "This is the created nodes full information"
   value       = elestio_mysql.nodes
-  description = "All the information of the nodes in the cluster"
-  sensitive   = true
-}
-
-output "cluster_admin" {
-  value       = elestio_mysql.nodes.*.admin
-  description = "The URL and secrets to connect to PHPMyAdmin on both nodes"
-  sensitive   = true
-}
-
-output "cluster_database_admin" {
-  value       = elestio_mysql.nodes.*.database_admin
-  description = "The database connection string/command for both nodes"
   sensitive   = true
 }

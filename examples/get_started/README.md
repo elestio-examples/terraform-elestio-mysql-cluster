@@ -1,6 +1,6 @@
-# Get started : MySQL Cluster with Terraform and Elestio
+# Example: Get Started with MySQL Cluster, Terraform and Elestio
 
-In this example, you will learn how to use this module to deploy your own MySQL cluster with Elestio.
+In this example you will learn how to use this module to deploy your own MySQL cluster easily.
 
 Some knowledge of [terraform](https://developer.hashicorp.com/terraform/intro) is recommended, but if not, the following instructions are sufficient.
 
@@ -31,32 +31,21 @@ Some knowledge of [terraform](https://developer.hashicorp.com/terraform/intro) i
    terraform show
    ```
 
+   It will:
+
+   - Create a new project in your Elestio account
+   - Build a MySQL cluster with the the 2 nodes you specified
+
 3. You can use the `terraform output` command to print the output block of your main.tf file:
 
    ```bash
-   terraform output cluster_admin # PHPMyAdmin secrets
-   terraform output cluster_database_admin # Database secrets
+   terraform output nodes_admins # PHPMyAdmin secrets
+   terraform output nodes_database_admins # Database secrets
    ```
 
 ## Testing
 
-Use `terraform output cluster_admin` command to output PHPMyAdmin secrets:
-
-```bash
-# cluster_admin
-[
-  {
-    "password" = "...."
-    "url" = "https://mysql-0-u525.vm.elestio.app:24580/"
-    "user" = "root"
-  },
-  {
-    "password" = "..."
-    "url" = "https://mysql-1-u525.vm.elestio.app:24580/"
-    "user" = "root"
-  },
-]
-```
+Use `terraform output nodes_admins` command to output PHPMyAdmin secrets:
 
 Log in to both URLs with the credentials.
 
@@ -66,10 +55,3 @@ You should see it automatically appear on the second node a few seconds later.
 You can try turning off the first node on the [Elestio dashboard](https://dash.elest.io/).
 The second node remains functional.
 When you restart it, it automatically updates with the new data.
-
-## How to use Multi-Master cluster
-
-If you can configure your two master clusters in Round Robin in your MySQL driver, a load balancer is not needed. The client-side will split the traffic between your instances and avoid a dead node. This helps to greatly simplify the high-availability system.
-
-- [Node.js](https://www.npmjs.com/package/mysql#poolcluster)
-- [Java](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html)
