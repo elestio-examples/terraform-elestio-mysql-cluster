@@ -81,7 +81,7 @@ provider "elestio" {
 }
 
 resource "elestio_project" "project" {
-  name = "MySQL Cluster"
+  name = "mysql-cluster"
 }
 ```
 
@@ -200,7 +200,7 @@ No modules.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_elestio"></a> [elestio](#provider\_elestio) | >= 0.14.0 |
+| <a name="provider_elestio"></a> [elestio](#provider\_elestio) | >= 0.17.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | >= 3.2.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 ## Requirements
@@ -208,7 +208,7 @@ No modules.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_elestio"></a> [elestio](#requirement\_elestio) | >= 0.14.0 |
+| <a name="requirement_elestio"></a> [elestio](#requirement\_elestio) | >= 0.17.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.5.1 |
 ## Resources
